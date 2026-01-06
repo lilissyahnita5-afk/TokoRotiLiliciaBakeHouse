@@ -34,10 +34,6 @@ form{background:#fff;padding:16px;border-radius:12px;box-shadow:var(--shadow)}
 input,textarea{width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #ddd}
 .submit{background:var(--accent);color:#fff;border:none;font-weight:bold;margin-top:12px}
 
-.steps{background:#fff;padding:16px;border-radius:12px;box-shadow:var(--shadow);margin-top:30px}
-.step{display:flex;gap:12px;margin-bottom:10px}
-.step span{background:var(--accent);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold}
-
 footer{text-align:center;margin:30px 0;font-size:13px}
 @media(max-width:600px){.hero{grid-template-columns:1fr}}
 </style>
@@ -62,7 +58,7 @@ footer{text-align:center;margin:30px 0;font-size:13px}
     <h1>Roti Hangat & Segar Setiap Hari</h1>
     <p>Roti & kue rumahan, fresh, lembut, dan terjangkau.</p>
   </div>
-  <img src="img/Logo.jpg" alt="Lilicia Bakehouse">
+  <img src="img/Logo.jpg">
 </section>
 
 <!-- PRODUK -->
@@ -119,14 +115,13 @@ footer{text-align:center;margin:30px 0;font-size:13px}
 <section id="checkout" style="margin-top:30px">
 <h2>Rincian Pemesanan</h2>
 <form onsubmit="event.preventDefault();sendMessage();">
-  <textarea id="product" readonly placeholder="Rincian Produk"></textarea>
-  <input id="qty" readonly placeholder="Jumlah Item">
-  <input id="total" readonly placeholder="Total Harga">
-  <textarea id="msg" placeholder="Catatan"></textarea>
-  <!-- ID DIGANTI AGAR AMAN -->
-  <input id="customerName" placeholder="Nama Pemesan" required>
-  <input id="phone" placeholder="No WhatsApp" required>
-  <button class="submit">🛒 Pesan via WhatsApp</button>
+<textarea id="product" readonly placeholder="Rincian Produk"></textarea>
+<input id="qty" readonly placeholder="Jumlah Item">
+<input id="total" readonly placeholder="Total Harga">
+<textarea id="msg" placeholder="Catatan"></textarea>
+<input id="customerName" placeholder="Nama Pemesan" required>
+<input id="phone" placeholder="No WhatsApp" required>
+<button class="submit">🛒 Pesan via WhatsApp</button>
 </form>
 </section>
 
@@ -165,41 +160,60 @@ function renderCart(){
  count.innerText=totalItem+' item';
  totalText.innerText='Rp '+totalHarga.toLocaleString();
 
- // AUTO ISI CHECKOUT
  document.getElementById('product').value=detail;
  document.getElementById('qty').value=totalItem;
  document.getElementById('total').value='Rp '+totalHarga.toLocaleString();
 }
 
-function clearCart(){cart.length=0;renderCart();}
+function clearCart(){
+ cart.length=0;
+ renderCart();
+}
 
 function checkout(){
- if(cart.length===0){alert('Keranjang kosong');return;}
- document.getElementById('checkout').scrollIntoView({behavior:'smooth'});
+ if(cart.length===0){
+  alert('Keranjang kosong');
+  return;
+ }
+ document.getElementById('checkout')
+ .scrollIntoView({behavior:'smooth'});
 }
 
 function sendMessage(){
  const adminWA="6281368178228";
  const nama=document.getElementById('customerName').value;
  const phone=document.getElementById('phone').value;
- const product=document.getElementById('product').value;
- const qty=document.getElementById('qty').value;
- const total=document.getElementById('total').value;
  const msg=document.getElementById('msg').value;
+
+ if(!nama || !phone){
+  alert("Nama dan WhatsApp wajib diisi");
+  return;
+ }
 
  const pesan=`PESANAN BARU
 Nama: ${nama}
 WA: ${phone}
 
 Pesanan:
-${product}
-Jumlah: ${qty}
-Total: ${total}
+${product.value}
+Jumlah: ${qty.value}
+Total: ${total.value}
 
 Catatan:
 ${msg||'-'}`;
 
  window.open("https://wa.me/"+adminWA+"?text="+encodeURIComponent(pesan));
+
+ /* 🔥 RESET OTOMATIS SETELAH CHECKOUT */
+ clearCart();
+ document.getElementById('product').value='';
+ document.getElementById('qty').value='';
+ document.getElementById('total').value='';
+ document.getElementById('msg').value='';
+ document.getElementById('customerName').value='';
+ document.getElementById('phone').value='';
+
+ window.scrollTo({top:0,behavior:'smooth'});
 }
 </script>
 
