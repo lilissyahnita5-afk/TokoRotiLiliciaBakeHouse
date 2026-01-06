@@ -73,8 +73,8 @@ footer{text-align:center;margin:30px 0;font-size:13px}
 <!-- PRODUK -->
 <section id="produk">
 <h2>Produk Kami</h2>
-<div class="grid">
 
+<div class="grid">
 <div class="card">
 <img src="img/RotiManis.jpg">
 <h3>Roti Manis</h3>
@@ -90,7 +90,6 @@ footer{text-align:center;margin:30px 0;font-size:13px}
 <div class="price">Rp38.000</div>
 <button class="add" onclick="addToCart('Bolu Cokelat','Loyang 20cm',38000)">Tambah</button>
 </div>
-
 </div>
 
 <!-- KERANJANG -->
@@ -108,7 +107,6 @@ footer{text-align:center;margin:30px 0;font-size:13px}
 <section id="checkout" style="margin-top:30px">
 <h2>Rincian Pemesanan</h2>
 
-<!-- ALAMAT TOKO -->
 <div class="address-box">
  <b>📍 Alamat Toko:</b><br>
  Jalan Jamin Ginting Km 22.5, Bintang Meriah
@@ -121,14 +119,18 @@ footer{text-align:center;margin:30px 0;font-size:13px}
 
 <select id="payment" required>
   <option value="">-- Pilih Metode Pembayaran --</option>
-  <option value="Transfer Bank (BCA / BRI)">Transfer Bank (BCA / BRI)</option>
-  <option value="E-Wallet (DANA / OVO / GoPay)">E-Wallet (DANA / OVO / GoPay)</option>
-  <option value="COD (Bayar di Tempat)">COD (Bayar di Tempat)</option>
+  <option value="Transfer Bank">Transfer Bank</option>
+  <option value="E-Wallet">E-Wallet</option>
+  <option value="COD">COD (Bayar di Tempat)</option>
 </select>
 
-<textarea id="msg" placeholder="Catatan"></textarea>
 <input id="customerName" placeholder="Nama Pemesan" required>
 <input id="phone" placeholder="No WhatsApp" required>
+
+<textarea id="buyerAddress" placeholder="Alamat Lengkap Pembeli" required></textarea>
+
+<textarea id="msg" placeholder="Catatan"></textarea>
+
 <button class="submit">🛒 Pesan via WhatsApp</button>
 </form>
 </section>
@@ -183,9 +185,13 @@ function sendMessage(){
  if(!payment.value){alert("Pilih metode pembayaran");return;}
 
  const adminWA="6281368178228";
+
  const pesan=`PESANAN BARU
 Nama: ${customerName.value}
 WA: ${phone.value}
+Alamat Pembeli:
+${buyerAddress.value}
+
 Metode Pembayaran: ${payment.value}
 
 Alamat Toko:
